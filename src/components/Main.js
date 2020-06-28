@@ -16,10 +16,105 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import Footer from './src/components/TextTranslator';
-import HeaderApp from './src/components/Header';
+import TextTranslator from './TextTranslator';
+import HeaderApp from './Header';
+import SaveWordsList from './SaveWordsList';
+import Footer from './Footer';
+import DisplayResult from './DisplayResult';
+import env from '../.env';
+const list = [
+  {
+    id: 1,
+    wordEn: 'hello',
+    traduction: 'hola',
+  },
+  {
+    id: 2,
+    wordEn: 'where is the restroom?',
+    traduction: '¿donde está el baño?',
+  },
+  {
+    id: 3,
+    wordEn: 'hurry up',
+    traduction: 'darse prisa',
+  },
+  {
+    id: 4,
+    wordEn: 'food',
+    traduction: 'comida',
+  },
+  {
+    id: 5,
+    wordEn: 'hurry up',
+    traduction: 'darse prisa',
+  },
+];
 
 class Main extends React.Component {
+  state = {
+    translateToggle: false,
+    inputText: '',
+    showTextTranslator: true,
+  };
+  // Imports the Google Cloud client library
+
+  // https://translation.googleapis.com/v3/{parent=rugged-layout-136123}:translateText
+  // projects/{project-number-or-id}
+  // Creates a client
+
+  // async function translateText() {
+  //   const text = 'The text to translate, e.g. Hello, world!';
+  // const target = 'The target language, e.g. ru';
+  //   // Translates the text into the target language. "text" can be a string for
+  //   // translating a single piece of text, or an array of strings for translating
+  //   // multiple texts.
+  //   let [translations] = await translate.translate(text, target);
+  //   translations = Array.isArray(translations) ? translations : [translations];
+  //   console.log('Translations:');
+  //   translations.forEach((translation, i) => {
+  //     console.log(`${text[i]} => (${target}) ${translation}`);
+  //   });
+  // }
+
+  // translateText();
+
+  onChangeText(e) {
+    // this.setState({inputText: e.target.value});
+    console.log('****', e);
+    this.setState({inputText: e});
+  }
+  onTranslateToggle() {
+    console.log(this.state.inputText);
+    this.setState({showTextTranslator: false});
+
+    // translate('Ik spreek Engels', {to: 'en'})
+    //   .then((res) => {
+    //     console.log(res.text);
+    //     //=> I speak English
+    //     console.log(res.from.language.iso);
+    //     //=> nl
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
+
+    // googleTranslate.translate('My name is Brandon', 'es', function (
+    //   err,
+    //   translation,
+    // ) {
+    //   console.log(translation.translatedText);
+    //   // =>  Mi nombre es Brandon
+    // });
+
+    // this.searchInput._root.clear();
+    // this.search.demo.clear();
+
+    console.log('ddd', this.state);
+  }
+  onTranslateMore() {
+    this.setState({showTextTranslator: true});
+  }
+
   render() {
     return (
       <>
@@ -29,41 +124,26 @@ class Main extends React.Component {
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
             <HeaderApp />
-            <Footer />
-            {global.HermesInternal == null ? null : (
-              <View style={styles.engine}>
-                <Text style={styles.footer}>Are YOU: Hermes</Text>
-              </View>
+
+            {this.state.showTextTranslator ? (
+              <TextTranslator
+                label="Enter text"
+                value={this.state.inputText}
+                onChangeText={this.onChangeText.bind(this)}
+                onTranslateToggle={this.onTranslateToggle.bind(this)}
+                ref={this.searchInput}
+              />
+            ) : (
+              <DisplayResult
+                onTranslateMore={this.onTranslateMore.bind(this)}
+              />
             )}
+
             <View style={styles.body}>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>YESSS One</Text>
-                <Text style={styles.sectionDescription}>
-                  Edit <Text style={styles.highlight}>App.js</Text> to change
-                  this screen and then come back to see your edits.
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>See Your Changes</Text>
-                <Text style={styles.sectionDescription}>
-                  <ReloadInstructions />
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Debug</Text>
-                <Text style={styles.sectionDescription}>
-                  <DebugInstructions />
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Learn More</Text>
-                <Text style={styles.sectionDescription}>
-                  Read the docs to discover what to do next:
-                </Text>
-              </View>
-              <LearnMoreLinks />
+              <SaveWordsList list={list} />
             </View>
           </ScrollView>
+          <Footer />
         </SafeAreaView>
       </>
     );
