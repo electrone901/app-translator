@@ -21,7 +21,14 @@ import HeaderApp from './Header';
 import SaveWordsList from './SaveWordsList';
 import Footer from './Footer';
 import DisplayResult from './DisplayResult';
-import env from '../.env';
+// const dotenv = require('dotenv');
+// const {
+//   Storage,
+// } = require('../../node_modules/@google-cloud/storage/build/src/storage.d.ts');
+
+import API_KEY from '../utils/api_key';
+import axios from 'axios';
+
 const list = [
   {
     id: 1,
@@ -59,24 +66,18 @@ class Main extends React.Component {
   // Imports the Google Cloud client library
 
   // https://translation.googleapis.com/v3/{parent=rugged-layout-136123}:translateText
-  // projects/{project-number-or-id}
-  // Creates a client
 
-  // async function translateText() {
-  //   const text = 'The text to translate, e.g. Hello, world!';
-  // const target = 'The target language, e.g. ru';
+  // async translateText(text, target) {
   //   // Translates the text into the target language. "text" can be a string for
   //   // translating a single piece of text, or an array of strings for translating
   //   // multiple texts.
   //   let [translations] = await translate.translate(text, target);
   //   translations = Array.isArray(translations) ? translations : [translations];
   //   console.log('Translations:');
-  //   translations.forEach((translation, i) => {
-  //     console.log(`${text[i]} => (${target}) ${translation}`);
-  //   });
+  //   // translations.forEach((translation, i) => {
+  //   //   console.log(`${text[i]} => (${target}) ${translation}`);
+  //   // });
   // }
-
-  // translateText();
 
   onChangeText(e) {
     // this.setState({inputText: e.target.value});
@@ -84,8 +85,55 @@ class Main extends React.Component {
     this.setState({inputText: e});
   }
   onTranslateToggle() {
-    console.log(this.state.inputText);
+    console.log('Click', this.state.inputText);
     this.setState({showTextTranslator: false});
+
+    let fromLang = 'en';
+    let toLang = 'es';
+    let text = 'Hello';
+
+    console.log('Click', this.state.inputText);
+
+    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+    url += '&q=' + encodeURI(text);
+    url += `&source=${fromLang}`;
+    url += `&target=${toLang}`;
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log('response from google: ', response);
+      })
+      .catch((error) => {
+        console.log('There was an error with the translation request: ', error);
+      });
+
+    // let url = `https://translation.googleapis.com/language/translate/v2?key${api_key}`;
+    // url += '&q=' + encodeURI(q);
+    // url += `&source=${source}`;
+    // url += `&target${target}`;
+
+    // console.log('OUTPUT: Main -> onTranslateToggle -> url', url);
+    // axios
+    //   .get(url)
+    //   .then((data) => {
+    //     console.log('OUTPUT: Main -> onTranslateToggle -> data', data);
+    //     this.setState({
+    //       translated: data.data.data.translations[0].translatedText,
+    //     });
+    //     console.log(data.data.data.translations[0].translatedText);
+    //   })
+    //   .catch((err) => {
+    //     console.log('error');
+    //   });
+
+    // this.translateText('hello', 'sp');
 
     // translate('Ik spreek Engels', {to: 'en'})
     //   .then((res) => {

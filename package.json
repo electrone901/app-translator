@@ -10,7 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@google-cloud/translate": "^6.0.0",
     "@vitalets/google-translate-api": "^3.0.0",
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
     "google-translate": "^3.0.0",
     "google-translate-api": "^2.3.0",
     "react": "16.11.0",
