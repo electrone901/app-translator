@@ -1,0 +1,195 @@
+<script src="https://apis.google.com/js/api.js"></script>
+<script>
+  /**
+   * Sample JavaScript code for vision.images.annotate
+   * See instructions for running APIs Explorer code samples locally:
+   * https://developers.google.com/explorer-help/guides/code_samples#javascript
+   */
+
+  function authenticate() {
+    return gapi.auth2.getAuthInstance()
+        .signIn({scope: "https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloud-vision"})
+        .then(function() { console.log("Sign-in successful"); },
+              function(err) { console.error("Error signing in", err); });
+  }
+  function loadClient() {
+    gapi.client.setApiKey("YOUR_API_KEY");
+    return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/vision/v1/rest")
+        .then(function() { console.log("GAPI client loaded for API"); },
+              function(err) { console.error("Error loading GAPI client for API", err); });
+  }
+  // Make sure the client is loaded and sign-in is complete before calling this method.
+  function execute() {
+    return gapi.client.vision.images.annotate({
+      "resource": {
+        "parent": "",
+        "requests": [
+          {
+            "image": {
+              "source": {
+                "imageUri": "https://images.unsplash.com/photo-1584449879552-d4a37ce5e5c1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+              }
+            },
+            "imageContext": {
+              "languageHints": [
+                "en",
+                "es"
+              ]
+            },
+            "features": [
+              {
+                "type": "TEXT_DETECTION"
+              }
+            ]
+          }
+        ]
+      }
+    })
+        .then(function(response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+              },
+              function(err) { console.error("Execute error", err); });
+  }
+  gapi.load("client:auth2", function() {
+    gapi.auth2.init({client_id: "YOUR_CLIENT_ID"});
+  });
+</script>
+<button onclick="authenticate().then(loadClient)">authorize and load</button>
+<button onclick="execute()">execute</button>
+
+
+
+
+
+
+
+const obj = {
+  "requests": [
+    {
+      "image": {
+        "source": {
+          "imageUri": "https://images.unsplash.com/photo-1584449879552-d4a37ce5e5c1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+        }
+      },
+      "imageContext": {
+        "languageHints": [
+          "en"
+        ]
+      },
+      "features": [
+        {
+          "type": "TEXT_DETECTION"
+        }
+      ]
+    }
+  ]
+}
+
+
+https://translation.googleapis.com/language/translate/v2?key=API_KEY&q=My%20name%20is%20Brandon&source=en&target=es
+
+
+https://vision.googleapis.com
+
+<iron-ajax
+  id="googleApi"
+  body="[[request]]"
+  content-type="application/json"
+  handle-as="json"
+  last-response="{{response}}"
+  loading="{{loading}}"
+  method="post"
+  url="
+  https://vision.googleapis.com/v1/images:annotate?key=API_KEY"></iron-ajax>;
+
+
+
+  func applyOCR(image: UIImage, completionHandler: @escaping(_ error: Error ? , _ data : String ? ) - > Void) {
+
+
+
+    let imageData: NSData = UIImageJPEGRepresentation(image, 0.2) !as NSData
+    var base64 = imageData.base64EncodedString(options: .endLineWithCarriageReturn)
+
+
+    var body = "{ 'requests': [ { 'image': { 'content': '\(base64)' }, 'features': [ { 'type': 'DOCUMENT_TEXT_DETECTION' } ],  'imageContext': {'languageHints': ['en']} } ] }";
+
+
+    "imageContext": {'languageHints': ['en']}
+    var session = URLSession.shared
+
+    let url = URL(string: "https://vision.googleapis.com/v1/images:annotate?key={Your Key}")
+
+    var request = NSMutableURLRequest(url: url!, cachePolicy:
+        NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData,
+        timeoutInterval: 30.0)
+
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    request.httpBody = body.data(using: .utf8)
+
+
+    let task = session.dataTask(with: request as URLRequest, completionHandler: {
+        data,
+        response,
+        error in
+
+        if let error = error {
+            print(error.localizedDescription)
+            completionHandler(error, nil)
+        }
+
+
+        if let data = data {
+
+            do {
+                let string1 = String(data: data, encoding: String.Encoding.utf8) ? ? "Data could not be printed"
+                //print(string1)
+
+                var json =
+                    try JSONSerialization.jsonObject(with: data, options: .allowFragments) as![String: Any]
+                if let responseData = json["responses"] as ? NSArray {
+
+                    if let levelB = responseData[0] as ? [String: Any] {
+
+                        if let levelC = levelB["fullTextAnnotation"] as ? [String: Any] {
+
+
+                            if let text = levelC["text"] as ? String {
+
+                                completionHandler(nil, text)
+                                return
+
+                            }
+
+                        }
+
+                    }
+
+
+
+                }
+
+                let error = NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Invaild access token"])
+                completionHandler(error, nil)
+                return
+
+
+            } catch {
+                print("error parsing \(error)")
+                completionHandler(error, nil)
+                return
+
+
+
+            }
+
+        }
+
+    })
+
+    task.resume()
+
+}

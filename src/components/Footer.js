@@ -1,6 +1,6 @@
 import React, {Component, useState} from 'react';
 import {View, StyleSheet, Button, TouchableOpacity, Text} from 'react-native';
-// import {Actions} from 'react-native-router-flux';
+import {Actions} from 'react-native-router-flux';
 import ButtonWithIcon from './ButtonWithIcon';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -13,9 +13,11 @@ class Footer extends Component {
     const {footer} = styles;
     return (
       <View style={footer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => Actions.imageUpload()}>
           <Icon name="camera" size={20} color="black" />
-          <Text>Camera</Text>
+          <Text> Camera</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}>
@@ -36,9 +38,9 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    bottom: 0,
+    bottom: 40,
     backgroundColor: 'yellow',
-    height: 70,
+    height: 75,
   },
   container: {
     flex: 1,

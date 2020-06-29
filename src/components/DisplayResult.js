@@ -1,17 +1,37 @@
-import React, {Component} from 'react';
-import {View, StyleSheet, Text, Button, TouchableOpacity} from 'react-native';
-
+import React from 'react';
+import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const DisplayResult = ({onTranslateMore}) => {
-  const {inputArea, headerGroup, display_result, btn, btn_text} = styles;
+const DisplayResult = ({
+  onTranslateMore,
+  translatedText,
+  saveWord,
+  inputText,
+}) => {
+  const {
+    inputArea,
+    headerGroup,
+    original_text,
+    btn,
+    btn_text,
+    result_box,
+    translated,
+    down_arrow,
+  } = styles;
 
   return (
     <View style={inputArea}>
-      <Text style={display_result}>DisplayResult DisplayResult </Text>
+      <View style={result_box}>
+        <Text style={original_text}> {inputText} </Text>
+        <Image style={down_arrow} source={require('../images/downArrow.jpg')} />
+        <Text style={translated}>
+          {' '}
+          {translatedText} <Icon name="check" size={20} color="blue" />
+        </Text>
+      </View>
 
       <View style={headerGroup}>
-        <TouchableOpacity onPress={() => this.onLogin()}>
+        <TouchableOpacity onPress={saveWord}>
           <View style={btn}>
             <Text style={btn_text}>Save to list</Text>
           </View>
@@ -49,15 +69,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 5,
   },
-  display_result: {
-    height: 100,
-    width: '100%',
+  result_box: {
     backgroundColor: 'white',
-    // backgroundColor: '#696969',
-    paddingRight: 5,
-    paddingLeft: 5,
-    fontSize: 15,
-    // color: 'white',
+    height: 230,
+    padding: 20,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  original_text: {
+    width: '100%',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  translated: {
+    width: '100%',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  down_arrow: {
+    width: 40,
+    height: 60,
   },
   headerGroup: {
     backgroundColor: 'white',

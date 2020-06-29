@@ -8,9 +8,9 @@ const SaveWordsList = ({list}) => {
   return (
     <View style={container}>
       <Text style={title}>Saved words</Text>
-      {list.map((word) => {
+      {list.map((word, idx) => {
         return (
-          <React.Fragment key={word.id}>
+          <React.Fragment key={idx}>
             <View style={separator} />
             <TouchableOpacity
               accessibilityRole={'button'}

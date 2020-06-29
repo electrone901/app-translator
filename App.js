@@ -1,30 +1,17 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-// import Footer from './src/components/TextTranslator';
-// import HeaderApp from './src/components/Header';
-import Main from './src/components/Main';
+import Router from './src/components/Router';
+import Footer from './src/components/Footer';
 
 const App = () => {
   return (
-    <>
-      <Main />
-    </>
+    <View style={{flex: 1}}>
+      <Router />
+      <Footer />
+    </View>
   );
 };
 

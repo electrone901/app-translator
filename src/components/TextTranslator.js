@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import {View, StyleSheet, Text, TextInput} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, TextInput} from 'react-native';
 import {Button} from 'react-native-material-ui';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const TextTranslator = ({value, onChangeText, onTranslateToggle, ref}) => {
   const {inputArea, input__field} = styles;
@@ -20,12 +19,6 @@ const TextTranslator = ({value, onChangeText, onTranslateToggle, ref}) => {
         ref={ref}
       />
       <Button onPress={onTranslateToggle} raised primary text="Translate" />
-
-      {/* <View style={styles.headerGroup}>
-        <Icon name="camera" size={20} color="black" />
-        <Icon name="pencil" size={20} color="black" text="pencil" />
-        <Icon name="microphone" size={20} color="black" />
-      </View> */}
     </View>
   );
 };
@@ -43,11 +36,9 @@ const styles = StyleSheet.create({
     height: 130,
     width: '100%',
     backgroundColor: '#dcdee0',
-    // backgroundColor: '#696969',
     paddingRight: 5,
     paddingLeft: 5,
     fontSize: 15,
-    // color: 'white',
   },
   headerGroup: {
     backgroundColor: 'white',

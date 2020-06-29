@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {Button, Icon} from 'react-native-material-ui';
-import switchImg from '../images/switch.png';
 
 const HeaderApp = () => {
   const [translateToggle, setTranslateToggle] = useState(true);
