@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    bottom: 40,
+    bottom: 20,
     backgroundColor: 'yellow',
     height: 75,
   },
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    // backgroundColor: '#DDDDDD',
     padding: 10,
   },
   countContainer: {
